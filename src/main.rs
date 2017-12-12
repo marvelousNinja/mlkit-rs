@@ -50,21 +50,23 @@
 // }
 
 fn gradient_descent<F>(objective: F, arg: f32, lr: f32, eta: f32, n_iter: i32) -> f32
-where F: Fn(f32) -> f32 {
-
-  let mut x = arg;
-  for _ in 0..n_iter {
-    x = x - lr * (objective(x + eta) - objective(x)) / eta
-  }
-  return x;
+where
+    F: Fn(f32) -> f32,
+{
+    let mut x = arg;
+    for _ in 0..n_iter {
+        x = x - lr * (objective(x + eta) - objective(x - eta)) / (2f32 * eta);
+        println!("{:?}", x);
+    }
+    return x;
 }
 
 fn objective(x: f32) -> f32 {
-  return x.powi(5) + 5f32;
+    return x.powi(5) + 5f32;
 }
 
 fn main() {
-  println!("hola");
-  println!("{:?}", objective(2f32));
-  println!("{:?}", gradient_descent(objective, 0.1, 0.1, 0.1, 100));
+    println!("hola");
+    println!("{:?}", objective(2f32));
+    println!("{:?}", gradient_descent(objective, 0.1, 0.1, 0.1, 100));
 }
